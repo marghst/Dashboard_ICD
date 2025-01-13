@@ -2,3 +2,7 @@ streamlit
 pandas
 altair
 plotly
+matplotlib
+wordcloud
+numpy
+seaborn
