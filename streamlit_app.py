@@ -60,8 +60,14 @@ else:
 
 print(df_combined.head())
 
-
-top_10_techniques_by_cluster = pd.read_csv(r'/workspaces/Dashboard_ICD/dados_streamlit/top_10_techniques_by_cluster.csv')
+file = os.path.join(base, "dados_streamlit", "top_10_techniques_by_cluster.csv")
+# Verificar se o ficheiro existe antes de abrir
+if os.path.exists(file):
+    # Ler o ficheiro CSV com pandas
+    top_10_techniques_by_cluster = pd.read_csv(file)
+    print("Ficheiro carregado com sucesso!")
+else:
+    print(f"Ficheiro não encontrado: {file}")
 
 ################### PREPARAÇÃO DOS GRÁFICOS ##########################
 
