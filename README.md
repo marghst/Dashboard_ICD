@@ -1,7 +1,7 @@
 # ICD Dashboard
 
 ## Prerequisite libraries
-Here are the Python libraries used in the creation of this dashboard app
+As livrarias necessárias estão no ficheiro do ambiente virtual - 'requirements.txt'.
 
 ## Data source
 Dados retirados do SCOPUS, utilizando a API.
