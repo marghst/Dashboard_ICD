@@ -1,5 +1,7 @@
 # ICD Dashboard
 
+A dashboard pode ser acedida diretamente através do link do streamlit - 'https://datascience-urbanplan--icd.streamlit.app/'. Não é necessário rodar a app localmente.
+
 ## Prerequisite libraries
 As livrarias necessárias estão no ficheiro do ambiente virtual - 'requirements.txt'.
 
