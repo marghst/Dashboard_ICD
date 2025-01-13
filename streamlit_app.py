@@ -3,6 +3,67 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import plotly.colors as pc
+import os
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud
+import numpy as np
+import seaborn as sns
+
+################## CARREGAR FICHEIROS ################################
+base = os.path.dirname(os.path.abspath(__file__))
+
+# Caminho completo para o ficheiro
+file = os.path.join(base, "dados_streamlit", "termos_titulos.csv")
+
+# Verificar se o ficheiro existe antes de abrir
+if os.path.exists(file):
+    # Ler o ficheiro CSV com pandas
+    termos_titulos = pd.read_csv(file)
+    print("Ficheiro carregado com sucesso!")
+else:
+    print(f"Ficheiro não encontrado: {file}")
+
+base = os.path.dirname(os.path.abspath(__file__))
+
+# Caminho completo para o ficheiro
+file = os.path.join(base, "dados_streamlit", "df_combined.csv")
+
+# Verificar se o ficheiro existe antes de abrir
+if os.path.exists(file):
+    # Ler o ficheiro CSV com pandas
+    df_all = pd.read_csv(file)
+    print("Ficheiro carregado com sucesso!")
+else:
+    print(f"Ficheiro não encontrado: {file}")
+
+base = os.path.dirname(os.path.abspath(__file__))
+
+# Caminho completo para o ficheiro
+file = os.path.join(base, "dados_streamlit", "df_authors.csv")
+
+# Verificar se o ficheiro existe antes de abrir
+if os.path.exists(file):
+    # Ler o ficheiro CSV com pandas
+    df_authors = pd.read_csv(file)
+    print("Ficheiro carregado com sucesso!")
+else:
+    print(f"Ficheiro não encontrado: {file}")
+
+file = os.path.join(base, "dados_streamlit", "df_combined.csv")
+# Verificar se o ficheiro existe antes de abrir
+if os.path.exists(file):
+    # Ler o ficheiro CSV com pandas
+    df_combined = pd.read_csv(file)
+    print("Ficheiro carregado com sucesso!")
+else:
+    print(f"Ficheiro não encontrado: {file}")
+
+print(df_combined.head())
+
+
+top_10_techniques_by_cluster = pd.read_csv(r'/workspaces/Dashboard_ICD/dados_streamlit/top_10_techniques_by_cluster.csv')
+
+################### PREPARAÇÃO DOS GRÁFICOS ##########################
 
 # URL do VOSviewer
 url = "https://tinyurl.com/233s5fwm"
@@ -310,25 +371,41 @@ with tab1:
 
     col1, spacer1, col2 = st.columns([3, 0.2, 3])
     # Dividir a tela em três colunas, conforme exemplo fornecido
-    col = st.columns((5, 5), gap='medium')
+    with col1:
+        with st.container():
+            st.subheader('Rede bibliométrica de co-ocorrência de keywords dos autores')
+            st.components.v1.html(f'<iframe src="{url}" width="95%" height="500px" style="border: 0px solid #ddd; max-width: 1000px; max-height: 500px; background-color: black;"></iframe>', height=600)
+    
+    with spacer1:
+        st.markdown(' ')
+    
+    with col2:
+        with st.container():
+            st.subheader('País de publicação dos artigos')
+            st.plotly_chart(fig1, use_container_width=True,
+                        width=500, height=500,
+                        key="fig1")
 
-    with col[0]:
-        st.markdown('#### Rede bibliométrica de co-ocorrência de keywords dos autores')
-        # Incorporar o conteúdo do VOSviewer diretamente com fundo preto
-        st.components.v1.html(f'<iframe src="{url}" width="100%" height="600px" style="border: 0px solid #ddd; max-width: 1000px; min-height: 500px; background-color: black;"></iframe>', height=600)
-        st.markdown('### País de publicação dos artigos')
-        st.plotly_chart(fig1, use_container_width=True)
+    st.markdown(" ")
+    st.markdown(" ")
+    st.markdown(" ")
 
-    with col[1]:
-        st.markdown('#### Top 10: Termos mais recorrentes nos títulos dos artigos')
-        # Exibir o gráfico de barras
-        st.plotly_chart(fig, use_container_width=True)
-        st.markdown('###   ')
-        st.markdown('###   ')
-        st.markdown('### TOP 10 de Autores, por nº de publicações')
-        st.plotly_chart(fig2)
+    col3, spacer2, col4 = st.columns([3, 0.2, 3])
 
-# Aba 2: Análise Bibliométrica
+    with col3:
+        st.subheader('Top 10: Termos mais recorrentes nos títulos dos artigos')
+        st.plotly_chart(fig, use_container_width=True,
+                        width=500, height=500,
+                        key="fig")
+
+    with spacer2:
+        st.markdown(' ')
+
+    with col4:
+        st.subheader('TOP 10: Autores, por nº de publicações')
+        st.plotly_chart(fig2,
+                        width=500, height=500, key="fig2"
+                        )
 with tab2:
 
     # Dividir a tela em três colunas com espaçadores
@@ -435,6 +512,9 @@ with tab2:
         filtered_df = top_10_techniques_by_cluster[top_10_techniques_by_cluster['Tópico'] == cluster_choice]
 
         st.write(f"Técnicas mais comuns no tópico {cluster_choice}:")
+        st.dataframe(filtered_df)
+    with col2:
+        st.markdown(' ')
         st.dataframe(filtered_df)
     with col2:
         st.markdown(' ')
